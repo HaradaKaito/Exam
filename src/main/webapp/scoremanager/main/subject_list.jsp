@@ -16,7 +16,7 @@
 				<a href="SubjectCreate.action">新規登録</a>
 			</div>
 
-			<%-- テーブルの外枠とヘッダは常に表示 --%>
+			<%-- テーブルの外枠とヘッダ表示 --%>
 			<table class="table table-hover">
 				<thead>
 					<tr>
