@@ -1,22 +1,32 @@
 package bean;
 
 public class Subject {
-    private String subjectId;
-    private String subjectName;
 
-    public String getSubjectId() {
-        return subjectId;
+    private String schoolCd;
+    private String cd;
+    private String name;
+
+    public String getSchoolCd() {
+        return schoolCd;
     }
 
-    public void setSubjectId(String subjectId) {
-        this.subjectId = subjectId;
+    public void setSchoolCd(String schoolCd) {
+        this.schoolCd = schoolCd;
     }
 
-    public String getSubjectName() {
-        return subjectName;
+    public String getCd() {
+        return cd;
     }
 
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
+    public void setCd(String cd) {
+        this.cd = cd;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

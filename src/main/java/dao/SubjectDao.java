@@ -15,15 +15,17 @@ public class SubjectDao extends Dao {
 
         Connection con = getConnection();
 
-        String sql = "SELECT * FROM SUBJECT";
+        String sql = "SELECT SCHOOL_CD, CD, NAME FROM SUBJECT";
         PreparedStatement st = con.prepareStatement(sql);
 
         ResultSet rs = st.executeQuery();
 
         while (rs.next()) {
             Subject subject = new Subject();
-            subject.setSubjectId(rs.getString("SUBJECT_ID"));
-            subject.setSubjectName(rs.getString("SUBJECT_NAME"));
+
+            subject.setSchoolCd(rs.getString("SCHOOL_CD"));
+            subject.setCd(rs.getString("CD"));
+            subject.setName(rs.getString("NAME"));
 
             list.add(subject);
         }
