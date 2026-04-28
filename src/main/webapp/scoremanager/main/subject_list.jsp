@@ -41,6 +41,9 @@
 						</c:when>
 						<%-- データがない場合はメッセージ用の行を表示 --%>
 						<c:otherwise>
+							<tr>
+                				<td colspan="4" class="text-center">科目情報がありません</td>
+            				</tr>
 						</c:otherwise>
 					</c:choose>
 				</tbody>
