@@ -30,7 +30,7 @@
 					<c:choose>
 						<%-- データがある場合は行をループ表示 --%>
 						<c:when test="${subjects.size() > 0}">
-							<c:forEach var="subject" items="${subjects}">
+							<c:forEach var="subject" items="${subjectList}">
 								<tr>
 									<td>${subject.Cd}</td>
 									<td>${subject.Name}</td>
