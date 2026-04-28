@@ -19,8 +19,8 @@
 			</div>
 
 			<c:choose>
-				<c:when test="${scores.size() > 0}">
-					<div>検索結果：${scores.size()}件</div>
+				<c:when test="${test.size() > 0}">
+					<div>検索結果：${test.size()}件</div>
 
 					<table class="table table-hover">
 						<tr>
@@ -33,16 +33,16 @@
 							<th></th>
 						</tr>
 
-						<c:forEach var="score" items="${scores}">
+						<c:forEach var="test" items="${test}">
 							<tr>
-								<td>${score.studentNo}</td>
-								<td>${score.studentName}</td>
-								<td>${score.entYear}</td>
-								<td>${score.classNum}</td>
+								<td>${test.studentNo}</td>
+								<td>${test.studentName}</td>
+								<td>${test.entYear}</td>
+								<td>${test.classNum}</td>
 
 								<td class="text-center">
 									<c:choose>
-										<c:when test="${score.attendFlag}">
+										<c:when test="${test.attendFlag}">
 											◯
 										</c:when>
 										<c:otherwise>
@@ -51,10 +51,10 @@
 									</c:choose>
 								</td>
 
-								<td>${score.schoolCd}</td>
+								<td>${test.schoolCd}</td>
 
 								<td>
-									<a href="ScoreUpdate.action?id=${score.id}">
+									<a href="ScoreUpdate.action?id=${test.id}">
 										変更
 									</a>
 								</td>
