@@ -29,13 +29,13 @@
 				<tbody>
 					<c:choose>
 						<%-- データがある場合は行をループ表示 --%>
-						<c:when test="${subjects.size() > 0}">
+						<c:when test="${subjectList.size() > 0}">
 							<c:forEach var="subject" items="${subjectList}">
 								<tr>
-									<td>${subject.Cd}</td>
-									<td>${subject.Name}</td>
-									<td><a href="SubjectUpdate.action?cd=${subject.Cd}">変更</a></td>
-									<td><a href="SubjectDelete.action?cd=${subject.Cd}">削除</a></td>
+									<td>${subject.cd}</td>
+									<td>${subject.name}</td>
+									<td><a href="SubjectUpdate.action?cd=${subject.cd}">変更</a></td>
+									<td><a href="SubjectDelete.action?cd=${subject.cd}">削除</a></td>
 								</tr>
 							</c:forEach>
 						</c:when>
