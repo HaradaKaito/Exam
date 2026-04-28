@@ -32,7 +32,7 @@
 							<th>学校コード</th>
 							<th></th>
 						</tr>
-
+						
 						<c:forEach var="test" items="${test}">
 							<tr>
 								<td>${test.studentNo}</td>
