@@ -68,5 +68,5 @@ public class SubjectCreateExecuteAction extends Action {
         // 完了画面へ
         request.getRequestDispatcher("subject_create_done.jsp")
                .forward(request, response);
-    }
+    }　
 }

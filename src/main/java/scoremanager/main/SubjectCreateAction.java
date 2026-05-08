@@ -13,4 +13,4 @@ public class SubjectCreateAction extends Action {
         request.getRequestDispatcher("subject_create.jsp")
                .forward(request, response);
     }
-}
+}　
