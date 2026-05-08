@@ -11,11 +11,13 @@ public class SubjectUpdateExecuteAction extends Action {
     // @Override 外す
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        String schoolCd = request.getParameter("schoolCd");
         String cd = request.getParameter("cd");
         String name = request.getParameter("name");
 
         Subject subject = new Subject();
 
+        subject.setSchoolCd(schoolCd);
         subject.setCd(cd);
         subject.setName(name);
 
