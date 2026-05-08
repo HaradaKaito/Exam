@@ -35,4 +35,22 @@ public class SubjectDao extends Dao {
 
         return list;
     }
+    
+    public void save(Subject subject) throws Exception {
+
+        Connection con = getConnection();
+
+        String sql = "INSERT INTO SUBJECT (SCHOOL_CD, CD, NAME) VALUES (?, ?, ?)";
+
+        PreparedStatement st = con.prepareStatement(sql);
+
+        st.setString(1, subject.getSchoolCd());
+        st.setString(2, subject.getCd());
+        st.setString(3, subject.getName());
+
+        st.executeUpdate();
+
+        st.close();
+        con.close();
+    }
 }
