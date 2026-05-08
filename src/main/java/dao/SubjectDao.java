@@ -70,4 +70,49 @@ public class SubjectDao extends Dao {
         con.close();
     }
     
+    public Subject findByCd(String cd) throws Exception {
+
+        Subject subject = null;
+
+        Connection con = getConnection();
+
+        String sql = "SELECT SCHOOL_CD, CD, NAME FROM SUBJECT WHERE CD = ?";
+
+        PreparedStatement st = con.prepareStatement(sql);
+
+        st.setString(1, cd);
+
+        ResultSet rs = st.executeQuery();
+
+        if (rs.next()) {
+
+            subject = new Subject();
+
+            subject.setSchoolCd(rs.getString("SCHOOL_CD"));
+            subject.setCd(rs.getString("CD"));
+            subject.setName(rs.getString("NAME"));
+        }
+
+        st.close();
+        con.close();
+
+        return subject;
+    }
+    
+    public void update(Subject subject) throws Exception {
+
+        Connection con = getConnection();
+
+        String sql = "UPDATE SUBJECT SET NAME = ? WHERE CD = ?";
+
+        PreparedStatement st = con.prepareStatement(sql);
+
+        st.setString(1, subject.getName());
+        st.setString(2, subject.getCd());
+
+        st.executeUpdate();
+
+        st.close();
+        con.close();
+    }
 }
