@@ -48,6 +48,7 @@
 				<c:if test="${not empty errors}">
     				<div class="alert alert-danger">
         				<c:forEach var="error" items="${errors}">
+            				<%-- Mapからエラー内容を1つずつ取り出して表示 --%>
             				<div>${error.value}</div>
         				</c:forEach>
     				</div>
