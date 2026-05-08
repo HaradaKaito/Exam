@@ -23,6 +23,8 @@ public class SubjectUpdateExecuteAction extends Action {
 
         dao.update(subject);
 
-        response.sendRedirect("SubjectList.action");
+        // 更新完了画面へ
+        request.getRequestDispatcher("subject_update_done.jsp")
+               .forward(request, response);
     }
 }
