@@ -19,7 +19,7 @@ public class SubjectDeleteAction extends Action {
             return;
         }
 
-        // 削除実行
+        // 削除
         SubjectDao dao = new SubjectDao();
         dao.delete(cd);
 
