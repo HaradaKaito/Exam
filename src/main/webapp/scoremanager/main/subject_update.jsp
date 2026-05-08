@@ -23,7 +23,7 @@
         			<input class="form-control" type="text" name="name" value="${subject.name}" required />
     			</div>
 
-    			<button type="submit" class="btn btn-primary">変更保存</button>
+    			<button type="submit" class="btn btn-primary">変更</button>
     			<a href="SubjectList.action" class="ms-3">戻る</a>
 			</form>
         </section>
