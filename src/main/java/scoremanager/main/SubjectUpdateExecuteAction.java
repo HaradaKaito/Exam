@@ -6,19 +6,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
-public class SubjectUpdateAction extends Action {
+public class SubjectUpdateExecuteAction extends Action {
 
     // @Override 外す
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String cd = request.getParameter("cd");
+        String name = request.getParameter("name");
+
+        Subject subject = new Subject();
+
+        subject.setCd(cd);
+        subject.setName(name);
 
         SubjectDao dao = new SubjectDao();
 
-        Subject subject = dao.findByCd(cd);
+        dao.update(subject);
 
-        request.setAttribute("subject", subject);
-
-        request.getRequestDispatcher("subject_update.jsp").forward(request, response);
+        response.sendRedirect("SubjectList.action");
     }
 }
