@@ -15,7 +15,7 @@
 			<%-- 画面タイトル --%>
 			<h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">科目情報登録</h2>
 
-			<form action="SubjectCreateExecute.action" method="post" class="mt-4 px-4">
+			<form action="SubjectCreate.action" method="post" class="mt-4 px-4">
 				<%-- 科目コード入力 --%>
 				<div class="mb-3">
 					<label class="form-label" for="subject-cd-input">科目コード</label>
