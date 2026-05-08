@@ -10,9 +10,10 @@ public class SubjectDeleteAction extends Action {
     // @Override 外す
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        // POST送信なら削除実行
+        // POSTなら削除実行
         if ("POST".equalsIgnoreCase(request.getMethod())) {
 
+            // 科目コード取得
             String cd = request.getParameter("cd");
 
             // null対策
@@ -25,8 +26,9 @@ public class SubjectDeleteAction extends Action {
             SubjectDao dao = new SubjectDao();
             dao.delete(cd);
 
-            // 一覧へ戻る
-            response.sendRedirect("SubjectList.action");
+            // 削除完了画面へ
+            request.getRequestDispatcher("subject_delete_done.jsp")
+                   .forward(request, response);
 
         } else {
 
@@ -34,9 +36,11 @@ public class SubjectDeleteAction extends Action {
             String cd = request.getParameter("cd");
             String name = request.getParameter("name");
 
+            // JSPへ値渡し
             request.setAttribute("subject_cd", cd);
             request.setAttribute("subject_name", name);
 
+            // 削除確認画面へ
             request.getRequestDispatcher("subject_delete.jsp")
                    .forward(request, response);
         }
