@@ -18,10 +18,22 @@
 			<form action="SubjectCreate.action" method="post" class="mt-4 px-4">
 				<%-- 科目コード入力 --%>
 				<div class="mb-3">
-					<label class="form-label" for="subject-cd-input">科目コード</label>
-					<input class="form-control" type="text" id="subject-cd-input" name="cd" 
-						value="${cd}" placeholder="科目コードを入力してください" maxlength="3" required />
-					<div class="text-danger small">${errors.get("cd")}</div>
+    				<label class="form-label">科目コード</label>
+    				<input class="form-control" type="text" name="cd" value="${cd}" maxlength="3" required />
+    				
+    				<%-- 文字数エラーの表示 --%>
+    				<c:if test="${not empty errors.get('cd')}">
+        				<div class="text-warning small mt-1">
+            				${errors.get("cd")}
+        				</div>
+    				</c:if>	
+    
+    				<%-- 重複エラーの表示 --%>
+   					<c:if test="${not empty errors.get('cd')}">
+        				<div class="text-warning small mt-1">
+            				${errors.get("cd")}
+        				</div>
+    				</c:if>
 				</div>
 
 				<%-- 科目名入力 --%>
@@ -36,7 +48,6 @@
 				<c:if test="${not empty errors}">
     				<div class="alert alert-danger">
         				<c:forEach var="error" items="${errors}">
-            				<%-- Mapからエラー内容を1つずつ取り出して表示 --%>
             				<div>${error.value}</div>
         				</c:forEach>
     				</div>
