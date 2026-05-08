@@ -53,4 +53,20 @@ public class SubjectDao extends Dao {
         st.close();
         con.close();
     }
+    
+    public void delete(String cd) throws Exception {
+
+        Connection con = getConnection();
+
+        String sql = "DELETE FROM SUBJECT WHERE CD = ?";
+
+        PreparedStatement st = con.prepareStatement(sql);
+
+        st.setString(1, cd);
+
+        st.executeUpdate();
+
+        st.close();
+        con.close();
+    }
 }
