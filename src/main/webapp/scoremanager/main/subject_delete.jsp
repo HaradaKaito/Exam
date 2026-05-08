@@ -1,43 +1,45 @@
-<%-- 科目情報削除JSP --%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%-- 科目情報登録JSP --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
-<%-- 共通のベースデザインを読み込み --%>
-<c:import url="/common/base.jsp">
+<c:import url="/common/base.jsp" >
     <c:param name="title">得点管理システム</c:param>
-    
+
     <c:param name="content">
         <section class="me-4">
-            <%-- 画面タイトル --%>
-            <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">科目情報削除</h2>
+            <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">科目情報登録</h2>
 
-            <div class="px-4">
-                <%-- 削除処理を実行するActionへ送信 --%>
-                <form action="SubjectDelete.action" method="post">
+            <form action="SubjectCreate.action" method="post" class="mt-4 px-4">
+                <%-- 科目コード入力 --%>
+                <div class="mb-3">
+                    <label class="form-label" for="subject-cd-input">科目コード</label>
+                    <input class="form-control" type="text" id="subject-cd-input" name="cd" 
+                        value="${cd}" placeholder="科目コードを入力してください" maxlength="3" required />
                     
-                    <%-- 確認メッセージ --%>
-                    <%-- 「」の中には選択された科目名と科目番号が表示される --%>
-                    <p class="mt-3">
-                        「${subject_name}(${subject_cd})」を削除してもよろしいですか
-                    </p>
+                    <%-- エラーメッセージ表示エリア --%>
+                    <c:if test="${not empty errors.get('cd')}">
+                        <div class="text-warning small mt-1">
+                            ${errors.get("cd")}
+                        </div>
+                    </c:if>
+                </div>
 
-                    <%-- 削除対象を特定するための隠しフィールド --%>
-                    <input type="hidden" name="cd" value="${subject_cd}">
-                    <input type="hidden" name="name" value="${subject_name}">
-	
-                    <div class="mt-4">
-    					<%-- ③ 削除ボタン：横幅いっぱいにしない場合は、そのまま配置 --%>
-    					<div>
-        					<button type="submit" class="btn btn-danger">削除</button>
-    					</div>
+                <%-- 科目名入力 --%>
+                <div class="mb-3">
+                    <label class="form-label" for="subject-name-input">科目名</label>
+                    <input class="form-control" type="text" id="subject-name-input" name="name" 
+                        value="${name}" placeholder="科目名を入力してください" maxlength="20" required />
+                    <div class="text-danger small mt-1">${errors.get("name")}</div>
+                </div>
 
-    					<%-- ④ 戻るリンク：mt-3などで上のボタンとの間隔を空ける --%>
-    					<div class="mt-3">
-        					<a href="SubjectList.action">戻る</a>
-    					</div>
-					</div>
-                </form>
-            </div>
+                <div class="mt-4">
+                    <button class="btn btn-primary" id="register-button">登録</button>
+                </div>
+
+                <div class="mt-3">
+                    <a href="SubjectList.action">戻る</a>
+                </div>
+            </form>
         </section>
     </c:param>
 </c:import>
