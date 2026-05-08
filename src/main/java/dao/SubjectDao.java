@@ -103,13 +103,12 @@ public class SubjectDao extends Dao {
 
         Connection con = getConnection();
 
-        String sql = "UPDATE SUBJECT SET NAME = ? WHERE SCHOOL_CD = ? AND CD = ?";
+        String sql = "UPDATE SUBJECT SET NAME = ? WHERE CD = ?";
 
         PreparedStatement st = con.prepareStatement(sql);
 
         st.setString(1, subject.getName());
-        st.setString(2, subject.getSchoolCd());
-        st.setString(3, subject.getCd());
+        st.setString(2, subject.getCd());
 
         st.executeUpdate();
 
