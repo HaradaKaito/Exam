@@ -24,14 +24,18 @@
                     <%-- 削除対象を特定するための隠しフィールド --%>
                     <input type="hidden" name="cd" value="${subject_cd}">
                     <input type="hidden" name="name" value="${subject_name}">
+	
+                    <div class="mt-4">
+    					<%-- ③ 削除ボタン：横幅いっぱいにしない場合は、そのまま配置 --%>
+    					<div>
+        					<button type="submit" class="btn btn-danger">削除</button>
+    					</div>
 
-                    <div class="mt-4 d-flex align-items-center gap-3">
-                        <%-- ③ 削除ボタン --%>
-                        <button type="submit" class="btn btn-danger">削除</button>
-
-                        <%-- ④ 戻るリンク --%>
-                        <a href="SubjectList.action">戻る</a>
-                    </div>
+    					<%-- ④ 戻るリンク：mt-3などで上のボタンとの間隔を空ける --%>
+    					<div class="mt-3">
+        					<a href="SubjectList.action">戻る</a>
+    					</div>
+					</div>
                 </form>
             </div>
         </section>
