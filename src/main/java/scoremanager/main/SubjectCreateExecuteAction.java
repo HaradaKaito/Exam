@@ -21,7 +21,7 @@ public class SubjectCreateExecuteAction extends Action {
             schoolCd = "oom";
         }
 
-        // 入力チェック
+        // 科目コードチェック
         if (cd == null || cd.isEmpty()) {
 
             request.setAttribute("error", "科目コードを入力してください");
@@ -32,10 +32,10 @@ public class SubjectCreateExecuteAction extends Action {
             return;
         }
 
-        // 3文字制限
-        if (cd.length() > 3) {
+        // 3文字固定
+        if (cd.length() != 3) {
 
-            request.setAttribute("error", "科目コードは3文字以内です");
+            request.setAttribute("error", "科目コードは3文字で入力してください");
 
             request.getRequestDispatcher("subject_create.jsp")
                    .forward(request, response);
@@ -43,6 +43,7 @@ public class SubjectCreateExecuteAction extends Action {
             return;
         }
 
+        // 科目名チェック
         if (name == null || name.isEmpty()) {
 
             request.setAttribute("error", "科目名を入力してください");
