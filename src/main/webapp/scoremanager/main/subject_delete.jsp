@@ -13,7 +13,7 @@
 
             <div class="px-4">
                 <%-- 削除処理を実行するActionへ送信 --%>
-                <form action="SubjectDeleteExecute.action" method="post">
+                <form action="SubjectDelete.action" method="post">
                     
                     <%-- 確認メッセージ --%>
                     <%-- 「」の中には選択された科目名と科目番号が表示される --%>
