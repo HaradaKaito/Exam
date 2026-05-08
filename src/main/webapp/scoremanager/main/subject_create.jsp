@@ -31,6 +31,16 @@
 						value="${name}" placeholder="科目名を入力してください" maxlength="20" required />
 					<div class="text-danger small">${errors.get("name")}</div>
 				</div>
+				
+				<%-- フォームの直前に追加 --%>
+				<c:if test="${not empty errors}">
+    				<div class="alert alert-danger">
+        				<c:forEach var="error" items="${errors}">
+            				<%-- Mapからエラー内容を1つずつ取り出して表示 --%>
+            				<div>${error.value}</div>
+        				</c:forEach>
+    				</div>
+				</c:if>
 
 				<%-- 登録ボタン --%>
 				<div class="mt-4">
