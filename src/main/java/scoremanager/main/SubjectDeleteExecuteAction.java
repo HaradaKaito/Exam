@@ -20,12 +20,12 @@ public class SubjectDeleteExecuteAction extends Action {
             return;
         }
 
-        // 削除実行
+        // 削除
         SubjectDao dao = new SubjectDao();
 
         dao.delete(cd);
 
-        // 完了画面へ
+        // 完了画面
         request.getRequestDispatcher("subject_delete_done.jsp")
                .forward(request, response);
     }
