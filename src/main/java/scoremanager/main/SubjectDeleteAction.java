@@ -20,11 +20,11 @@ public class SubjectDeleteAction extends Action {
             return;
         }
 
-        // JSPへ渡す
+        // JSPへ値渡し
         request.setAttribute("subject_cd", cd);
         request.setAttribute("subject_name", name);
 
-        // 削除確認画面表示
+        // 削除確認画面へ
         request.getRequestDispatcher("subject_delete.jsp")
                .forward(request, response);
     }

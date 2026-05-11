@@ -10,7 +10,7 @@ public class SubjectDeleteExecuteAction extends Action {
     // @Override 外す
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        // パラメータ取得
+        // 科目コード取得
         String cd = request.getParameter("cd");
 
         // null対策
@@ -25,7 +25,7 @@ public class SubjectDeleteExecuteAction extends Action {
 
         dao.delete(cd);
 
-        // 完了画面へ
+        // 削除完了画面へ
         request.getRequestDispatcher("subject_delete_done.jsp")
                .forward(request, response);
     }
