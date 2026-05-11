@@ -19,7 +19,7 @@
 				<%-- 科目コード入力 --%>
 				<div class="mb-3">
     				<label class="form-label">科目コード</label>
-    				<input class="form-control" type="text" name="cd" value="${cd}" maxlength="3" required />
+    				<input class="form-control" type="text" name="cd" value="${cd}" maxlength="10" required />
     				
     				<%-- 文字数エラーの表示 --%>
     				<c:if test="${not empty errors.get('cd')}">
@@ -29,11 +29,11 @@
     				</c:if>	
     
     				<%-- 重複エラーの表示 --%>
-   					<c:if test="${not empty errors.get('cd')}">
-        				<div class="text-warning small mt-1">
-            				${errors.get("cd")}
-        				</div>
-    				</c:if>
+   					<c:if test="${not empty errors.get('duplicate')}">
+    					<div class="text-warning small mt-1">
+        					${errors.get("duplicate")}
+    					</div>
+					</c:if>
 				</div>
 
 				<%-- 科目名入力 --%>
