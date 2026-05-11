@@ -15,7 +15,7 @@
 			<%-- 画面タイトル --%>
 			<h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">科目情報登録</h2>
 
-			<form action="SubjectCreate.action" method="post" class="mt-4 px-4">
+			<form action="SubjectCreateExecute.action" method="post" class="mt-4 px-4">
 				<%-- 科目コード入力 --%>
 				<div class="mb-3">
     				<label class="form-label">科目コード</label>
@@ -49,7 +49,7 @@
     				<div class="alert alert-danger">
         				<c:forEach var="error" items="${errors}">
             				<%-- Mapからエラー内容を1つずつ取り出して表示 --%>
-            				<div>${error.value}</div> v,./\@
+            				<div>${error.value}</div>
         				</c:forEach>
     				</div>
 				</c:if>
