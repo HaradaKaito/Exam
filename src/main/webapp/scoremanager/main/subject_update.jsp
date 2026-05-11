@@ -11,11 +11,18 @@
 
             <form action="SubjectUpdateExecute.action" method="post" class="mt-4 px-4">
                 
-                <%-- 科目コード表示 (readonly) --%>
+                <%-- 科目コード表示 --%>
                 <div class="mb-3">
                     <label class="form-label" for="subject-cd-display">科目コード</label>
                     <input class="form-control-plaintext border-bottom" type="text" id="subject-cd-display" 
                         name="cd" value="${subject.cd}" readonly />
+                        
+                        <%-- 存在チェックエラーの表示 --%>
+                        <c:if test="${not empty errors.get('not_found')}">
+        					<div class="text-warning small mt-1">
+            					${errors.get("not_found")}
+        					</div>
+    					</c:if>
                 </div>
 
                 <%-- 科目名入力 --%>
@@ -30,14 +37,13 @@
                     </c:if>
                 </div>
 
-                <%-- ★ ボタンとリンクの配置修正 (13:54:38 のレイアウトを再現) --%>
                 <div class="mt-4">
-                    <%-- ④ 変更ボタン --%>
+                    <%-- 変更ボタン --%>
                     <div>
                         <button class="btn btn-primary" id="update-button">変更</button>
                     </div>
 
-                    <%-- ⑤ 戻るリンク：mt-3で上のボタンと間隔を空けて配置 --%>
+                    <%-- 戻るリンク --%>
                     <div class="mt-3">
                         <a href="SubjectList.action">戻る</a>
                     </div>
