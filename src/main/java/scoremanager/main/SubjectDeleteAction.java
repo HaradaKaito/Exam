@@ -20,7 +20,7 @@ public class SubjectDeleteAction extends Action {
             return;
         }
 
-        // JSPへ値渡し
+        // JSPへ渡す
         request.setAttribute("subject_cd", cd);
         request.setAttribute("subject_name", name);
 

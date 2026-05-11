@@ -25,7 +25,7 @@ public class SubjectDeleteExecuteAction extends Action {
 
         dao.delete(cd);
 
-        // 削除完了画面へ
+        // 完了画面へ
         request.getRequestDispatcher("subject_delete_done.jsp")
                .forward(request, response);
     }
