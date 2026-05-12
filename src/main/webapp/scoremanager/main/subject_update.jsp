@@ -15,7 +15,6 @@
                 <%-- 科目コード表示 --%>
                 <div class="mb-3">
                     <label class="form-label">科目コード</label>
-                    <%-- 設計書に合わせて枠線なしのプレーン表示 --%>
                     <div class="mb-1">${subject.cd}</div>
                     <%-- readonly属性を付与したhidden的な役割のinput --%>
                     <input type="hidden" name="cd" value="${subject.cd}" />
@@ -31,7 +30,6 @@
                 <%-- 科目名入力 --%>
                 <div class="mb-3">
                     <label class="form-label" for="subject-name-input">科目名</label>
-                    <%-- placeholderとmaxlengthを設計書通りに設定 --%>
                     <input class="form-control" type="text" id="subject-name-input" name="name" 
                         value="${subject.name}" placeholder="科目名を入力してください" maxlength="20" required />
                     
