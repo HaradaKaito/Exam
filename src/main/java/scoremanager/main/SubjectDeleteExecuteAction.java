@@ -42,14 +42,14 @@ public class SubjectDeleteExecuteAction extends Action {
         if (result) {
 
             // 一覧へ戻る
-            response.sendRedirect("SubjectList.action");
-
+        	request.getRequestDispatcher("subject_delete_done.jsp")
+            	   .forward(request, response);
         } else {
 
             // エラー
             request.setAttribute("error", "科目削除に失敗しました");
 
-            request.getRequestDispatcher("subject_delete.jsp")
+            request.getRequestDispatcher("error.jsp")
                    .forward(request, response);
         }
     }
