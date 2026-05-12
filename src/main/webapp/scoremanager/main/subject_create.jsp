@@ -14,7 +14,7 @@
                 <%-- 科目コード入力 --%>
                 <div class="mb-3">
                     <label class="form-label">科目コード</label>
-                    <input class="form-control" type="text" name="cd" value="${cd}" maxlength="10" placeholder="科目コードを入力してください" required />
+                    <input class="form-control" type="text" name="cd" value="${cd}" maxlength="3" placeholder="科目コードを入力してください" required />
                     
                     <%-- 文字数エラー 重複エラー --%>
                     <%-- cdのエラーか、duplicateのエラーがあれば表示 --%>
