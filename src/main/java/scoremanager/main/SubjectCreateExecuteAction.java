@@ -1,5 +1,8 @@
 package scoremanager.main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import bean.School;
 import bean.Subject;
 import bean.Teacher;
@@ -12,46 +15,63 @@ import tool.Action;
 public class SubjectCreateExecuteAction extends Action {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        // リクエストパラメータ取得
-        String cd = request.getParameter("cd");
-        String name = request.getParameter("name");
+    public void execute(
+            HttpServletRequest req,
+            HttpServletResponse res
+    ) throws Exception {
 
         // セッション取得
-        HttpSession session = request.getSession();
+        HttpSession session = req.getSession();
 
-        // ログイン中教師取得
-        Teacher teacher = (Teacher) session.getAttribute("user");
+        Teacher teacher =
+                (Teacher) session.getAttribute("user");
 
-        // 教師の学校取得
         School school = teacher.getSchool();
 
-        // Subject生成
-        Subject subject = new Subject();
-        subject.setCd(cd);
-        subject.setName(name);
-        subject.setSchool(school);
+        // パラメータ取得
+        String cd = req.getParameter("cd");
+        String name = req.getParameter("name");
 
-        // DAO生成
+        // DAO
         SubjectDao dao = new SubjectDao();
 
-        // 保存
-        boolean result = dao.save(subject);
+        // エラー格納
+        Map<String, String> errors =
+                new HashMap<>();
 
-        // 保存結果判定
-        if (result) {
+        // バリデーション
+        if (cd != null && cd.length() != 3) {
 
-            // 一覧へリダイレクト
-            response.sendRedirect("SubjectList.action");
+            errors.put(
+                    "cd",
+                    "科目コードは3文字で入力してください"
+            );
+        }
+
+        // 入力保持
+        req.setAttribute("cd", cd);
+        req.setAttribute("name", name);
+
+        // エラーなし
+        if (errors.isEmpty()) {
+
+            Subject subject = new Subject();
+
+            subject.setCd(cd);
+            subject.setName(name);
+            subject.setSchool(school);
+
+            dao.save(subject);
+
+            res.sendRedirect("SubjectList.action");
 
         } else {
 
-            // 失敗時
-            request.setAttribute("error", "科目登録に失敗しました");
+            req.setAttribute("errors", errors);
 
-            request.getRequestDispatcher("subject_create.jsp")
-                   .forward(request, response);
+            req.getRequestDispatcher(
+                    "subject_update.jsp"
+            ).forward(req, res);
         }
     }
 }

@@ -7,9 +7,12 @@ import tool.Action;
 public class SubjectCreateAction extends Action {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void execute(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws Exception {
 
-        // 科目登録画面へ遷移
+        // 登録画面へ遷移
         request.getRequestDispatcher("subject_create.jsp")
                .forward(request, response);
     }
