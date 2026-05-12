@@ -14,28 +14,44 @@ import tool.Action;
 public class SubjectListAction extends Action {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void execute(
+            HttpServletRequest req,
+            HttpServletResponse res
+    ) throws Exception {
 
         // セッション取得
-        HttpSession session = request.getSession();
+        HttpSession session = req.getSession();
 
-        // ログイン中教師取得
-        Teacher teacher = (Teacher) session.getAttribute("user");
+        // ログインユーザー取得
+        Teacher teacher =
+                (Teacher) session.getAttribute("user");
 
-        // 教師の学校取得
+        // 未ログイン対策
+        if (teacher == null) {
+
+            res.sendRedirect("../login.jsp");
+            return;
+        }
+
+        // 学校取得
         School school = teacher.getSchool();
 
         // DAO生成
         SubjectDao dao = new SubjectDao();
 
-        // 学校別で科目取得
-        List<Subject> list = dao.filter(school);
+        // 科目一覧取得
+        List<Subject> subjectList =
+                dao.filter(school);
 
-        // JSPへ渡す
-        request.setAttribute("subjectList", list);
+        // リクエストへセット
+        req.setAttribute(
+                "subjectList",
+                subjectList
+        );
 
-        // JSPへ遷移
-        request.getRequestDispatcher("subject_list.jsp")
-               .forward(request, response);
+        // JSPへフォワード
+        req.getRequestDispatcher(
+                "subject_list.jsp"
+        ).forward(req, res);
     }
 }
