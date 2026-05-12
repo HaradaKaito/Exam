@@ -19,7 +19,7 @@
                     <input type="hidden" name="cd" value="${subject_cd}">
 
                     <p class="mt-3">
-                        「${subject_name}(${subject_cd})」を削除してもよろしいですか
+                        「${subject.name}(${subject.cd})」を削除してもよろしいですか
                     </p>
 
                     <div class="mt-4 d-flex align-items-center gap-3">
