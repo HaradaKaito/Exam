@@ -1,19 +1,27 @@
 package bean;
 
-public class Subject {
+import java.io.Serializable;
 
-    private String schoolCd;
+public class Subject implements Serializable {
+
+    /**
+     * 科目コード:String
+     */
     private String cd;
+
+    /**
+     * 科目名:String
+     */
     private String name;
 
-    public String getSchoolCd() {
-        return schoolCd;
-    }
+    /**
+     * 学校:School
+     */
+    private School school;
 
-    public void setSchoolCd(String schoolCd) {
-        this.schoolCd = schoolCd;
-    }
-
+    /**
+     * ゲッター・セッター
+     */
     public String getCd() {
         return cd;
     }
@@ -28,5 +36,13 @@ public class Subject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
     }
 }
