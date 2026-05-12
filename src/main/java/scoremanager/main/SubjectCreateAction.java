@@ -6,10 +6,10 @@ import tool.Action;
 
 public class SubjectCreateAction extends Action {
 
-    // @Override 外す
+    @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        // 登録画面表示
+        // 科目登録画面へ遷移
         request.getRequestDispatcher("subject_create.jsp")
                .forward(request, response);
     }
