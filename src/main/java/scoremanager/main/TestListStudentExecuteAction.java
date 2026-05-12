@@ -26,7 +26,8 @@ public class TestListStudentExecuteAction extends Action {
         try {
             String studentId = req.getParameter("studentId");
             if (studentId == null || studentId.isEmpty()) {
-                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "studentIdが未入力です");
+                res.sendError
+                (HttpServletResponse.SC_BAD_REQUEST, "studentIdが未入力です");
                 return;
             }
 

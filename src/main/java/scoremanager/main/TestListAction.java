@@ -14,7 +14,8 @@ public class TestListAction extends Action {
 
     private final TestDao testDao;
 
-    public TestListAction(TestDao testDao) {
+    public TestListAction
+    (TestDao testDao) {
         if (testDao == null) {
             throw new IllegalArgumentException("TestDao cannot be null");
         }
