@@ -16,7 +16,7 @@
             <div class="px-4">
                 <form action="SubjectDeleteExecute.action" method="post">
                     <%-- 削除対象を特定するための隠しフィールド --%>
-                    <input type="hidden" name="cd" value="${subject_cd}">
+                    <input type="hidden" name="cd" value="${subject.cd}">
 
                     <p class="mt-3">
                         「${subject.name}(${subject.cd})」を削除してもよろしいですか
