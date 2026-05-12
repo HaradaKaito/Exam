@@ -36,7 +36,7 @@ public class SubjectListAction extends Action {
         // 学校取得
         School school = teacher.getSchool();
 
-        // DAO生成
+        // DAO生成　
         SubjectDao dao = new SubjectDao();
 
         // 科目一覧取得
