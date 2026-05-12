@@ -23,27 +23,27 @@ public class SubjectCreateExecuteAction extends Action {
         // セッション取得
         HttpSession session = req.getSession();
 
-        // ログイン中教師取得
+        // ログイン教師取得
         Teacher teacher =
                 (Teacher) session.getAttribute("user");
 
         // 学校取得
         School school = teacher.getSchool();
 
-        // リクエストパラメータ取得
+        // パラメータ取得
         String cd = req.getParameter("cd");
         String name = req.getParameter("name");
 
         // DAO生成
         SubjectDao dao = new SubjectDao();
 
-        // エラー格納用
+        // エラー格納
         Map<String, String> errors =
                 new HashMap<>();
 
-        // =========================
+        // =====================
         // バリデーション
-        // =========================
+        // =====================
 
         // 科目コード未入力
         if (cd == null || cd.isEmpty()) {
@@ -54,7 +54,7 @@ public class SubjectCreateExecuteAction extends Action {
             );
         }
 
-        // 科目コード文字数チェック
+        // 3文字チェック
         else if (cd.length() != 3) {
 
             errors.put(
@@ -87,19 +87,20 @@ public class SubjectCreateExecuteAction extends Action {
             );
         }
 
-        // =========================
         // 入力保持
-        // =========================
         req.setAttribute("cd", cd);
         req.setAttribute("name", name);
 
-        // =========================
+        // =====================
         // エラー判定
-        // =========================
+        // =====================
+
+        // エラーなし
         if (errors.isEmpty()) {
 
             // Subject生成
-            Subject subject = new Subject();
+            Subject subject =
+                    new Subject();
 
             subject.setCd(cd);
             subject.setName(name);
@@ -112,9 +113,14 @@ public class SubjectCreateExecuteAction extends Action {
             // 保存成功
             if (result) {
 
-                res.sendRedirect(
-                        "SubjectList.action"
+                req.setAttribute(
+                        "subject",
+                        subject
                 );
+
+                req.getRequestDispatcher(
+                        "subject_create_done.jsp"
+                ).forward(req, res);
 
             }
 
