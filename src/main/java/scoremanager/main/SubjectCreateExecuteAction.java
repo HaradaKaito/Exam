@@ -23,24 +23,39 @@ public class SubjectCreateExecuteAction extends Action {
         // セッション取得
         HttpSession session = req.getSession();
 
+        // ログイン中教師取得
         Teacher teacher =
                 (Teacher) session.getAttribute("user");
 
+        // 学校取得
         School school = teacher.getSchool();
 
-        // パラメータ取得
+        // リクエストパラメータ取得
         String cd = req.getParameter("cd");
         String name = req.getParameter("name");
 
-        // DAO
+        // DAO生成
         SubjectDao dao = new SubjectDao();
 
-        // エラー格納
+        // エラー格納用
         Map<String, String> errors =
                 new HashMap<>();
 
+        // =========================
         // バリデーション
-        if (cd != null && cd.length() != 3) {
+        // =========================
+
+        // 科目コード未入力
+        if (cd == null || cd.isEmpty()) {
+
+            errors.put(
+                    "cd",
+                    "科目コードを入力してください"
+            );
+        }
+
+        // 科目コード文字数チェック
+        else if (cd.length() != 3) {
 
             errors.put(
                     "cd",
@@ -48,29 +63,91 @@ public class SubjectCreateExecuteAction extends Action {
             );
         }
 
+        // 重複チェック
+        else {
+
+            Subject existing =
+                    dao.get(cd, school);
+
+            if (existing != null) {
+
+                errors.put(
+                        "duplicate",
+                        "科目コードが重複しています"
+                );
+            }
+        }
+
+        // 科目名未入力
+        if (name == null || name.isEmpty()) {
+
+            errors.put(
+                    "name",
+                    "科目名を入力してください"
+            );
+        }
+
+        // =========================
         // 入力保持
+        // =========================
         req.setAttribute("cd", cd);
         req.setAttribute("name", name);
 
-        // エラーなし
+        // =========================
+        // エラー判定
+        // =========================
         if (errors.isEmpty()) {
 
+            // Subject生成
             Subject subject = new Subject();
 
             subject.setCd(cd);
             subject.setName(name);
             subject.setSchool(school);
 
-            dao.save(subject);
+            // 保存
+            boolean result =
+                    dao.save(subject);
 
-            res.sendRedirect("SubjectList.action");
+            // 保存成功
+            if (result) {
 
-        } else {
+                res.sendRedirect(
+                        "SubjectList.action"
+                );
 
-            req.setAttribute("errors", errors);
+            }
+
+            // 保存失敗
+            else {
+
+                errors.put(
+                        "save",
+                        "科目登録に失敗しました"
+                );
+
+                req.setAttribute(
+                        "errors",
+                        errors
+                );
+
+                req.getRequestDispatcher(
+                        "subject_create.jsp"
+                ).forward(req, res);
+            }
+
+        }
+
+        // エラーあり
+        else {
+
+            req.setAttribute(
+                    "errors",
+                    errors
+            );
 
             req.getRequestDispatcher(
-                    "subject_update.jsp"
+                    "subject_create.jsp"
             ).forward(req, res);
         }
     }
