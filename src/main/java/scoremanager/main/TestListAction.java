@@ -1,6 +1,5 @@
 package scoremanager.main;
 
-import java.io.IOException;
 import java.util.List;
 
 import bean.Test;
@@ -14,11 +13,8 @@ public class TestListAction extends Action {
 
     private final TestDao testDao;
 
-    public TestListAction
-    (TestDao testDao) {
-        if (testDao == null) {
-            throw new IllegalArgumentException("TestDao cannot be null");
-        }
+    public TestListAction(TestDao testDao) {
+        if (testDao == null) throw new IllegalArgumentException("TestDao cannot be null");
         this.testDao = testDao;
     }
 
@@ -26,14 +22,10 @@ public class TestListAction extends Action {
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
         try {
             List<Test> tests = testDao.getAllTests();
-            if (tests == null) {
-                tests = List.of(); // null防止
-            }
-
+            if (tests == null) tests = List.of();
             req.setAttribute("tests", tests);
             req.getRequestDispatcher("testList.jsp").forward(req, res);
-
-        } catch (ServletException | IOException e) {
+        } catch (ServletException | java.io.IOException e) {
             e.printStackTrace();
             res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "テスト一覧取得中にエラーが発生しました");
         }

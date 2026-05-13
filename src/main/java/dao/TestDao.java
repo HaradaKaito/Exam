@@ -13,8 +13,7 @@ import bean.Test;
 
 public class TestDao extends Dao {
 
-    private static final String baseSql =
-        "SELECT * FROM TEST WHERE SCHOOL = ?";
+    private static final String baseSql = "SELECT * FROM TEST WHERE SCHOOL = ?";
 
     // 1件取得
     public Test get(Student student, Subject subject, School school, int no) throws Exception {
@@ -43,7 +42,6 @@ public class TestDao extends Dao {
         rs.close();
         st.close();
         con.close();
-
         return test;
     }
 
@@ -106,6 +104,28 @@ public class TestDao extends Dao {
         rs.close();
         st.close();
         con.close();
+        return list;
+    }
+
+    // 科目ごとのテスト取得 ← 新規追加
+    public List<Test> getScoresBySubject(Subject subject) throws Exception {
+        if (subject == null || subject.getCd() == null || subject.getCd().isEmpty()) {
+            return List.of(); // null安全
+        }
+
+        Connection con = getConnection();
+        PreparedStatement st = con.prepareStatement(
+            "SELECT T.*, S.NAME, S.ENT_YEAR, S.CLASS_NUM, S.IS_ATTEND " +
+            "FROM TEST T JOIN STUDENT S ON T.STUDENT_NO = S.NO " +
+            "WHERE T.SUBJECT_CD = ? ORDER BY T.NO"
+        );
+        st.setString(1, subject.getCd());
+
+        ResultSet rs = st.executeQuery();
+        List<Test> list = postFilter(rs, null, subject);
+        rs.close();
+        st.close();
+        con.close();
 
         return list;
     }
@@ -157,7 +177,6 @@ public class TestDao extends Dao {
 
     // 1件保存（INSERT or UPDATE）
     public boolean save(Test test, Connection con) throws Exception {
-        // 既存チェック
         PreparedStatement st1 = con.prepareStatement(
             "SELECT COUNT(*) FROM TEST WHERE STUDENT_NO = ? AND SUBJECT_CD = ? AND NO = ? AND SCHOOL = ?"
         );
@@ -182,7 +201,6 @@ public class TestDao extends Dao {
             st2.setString(3, test.getSubject().getCd());
             st2.setInt(4, test.getNo());
             st2.setString(5, test.getSchool().getCd());
-
             st2.executeUpdate();
             st2.close();
             return true;
@@ -196,7 +214,6 @@ public class TestDao extends Dao {
         st3.setInt(3, test.getNo());
         st3.setInt(4, test.getPoint());
         st3.setString(5, test.getSchool().getCd());
-
         st3.executeUpdate();
         st3.close();
 
