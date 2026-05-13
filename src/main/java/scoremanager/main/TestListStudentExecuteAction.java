@@ -3,7 +3,7 @@ package scoremanager.main;
 import java.util.List;
 
 import bean.Test;
-import dao.TestDao;
+import dao.TestListDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,14 +11,13 @@ import tool.Action;
 
 public class TestListStudentExecuteAction extends Action {
 
-    private final TestDao testDao;
+    private final TestListDao testListDao;
 
-    public TestListStudentExecuteAction(TestDao testDao) {
-        if (testDao == null) throw new IllegalArgumentException("TestDao cannot be null");
-        this.testDao = testDao;
+    public TestListStudentExecuteAction(TestListDao testListDao) {
+        if (testListDao == null) throw new IllegalArgumentException("TestListDao cannot be null");
+        this.testListDao = testListDao;
     }
 
-    
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
         try {
@@ -28,7 +27,7 @@ public class TestListStudentExecuteAction extends Action {
                 return;
             }
 
-            List<Test> tests = testDao.getScoresByStudent(studentId);
+            List<Test> tests = testListDao.getScoresByStudent(studentId);
             if (tests == null) tests = List.of();
             req.setAttribute("tests", tests);
             req.getRequestDispatcher("studentTestList.jsp").forward(req, res);
