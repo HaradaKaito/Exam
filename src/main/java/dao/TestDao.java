@@ -22,6 +22,7 @@ public class TestDao extends Dao {
             baseSql + " AND STUDENT_NO = ? AND SUBJECT_CD = ? AND NO = ?"
         );
 
+        
         st.setString(1, student.getNo());
         st.setString(2, subject.getCd());
         st.setInt(3, no);
