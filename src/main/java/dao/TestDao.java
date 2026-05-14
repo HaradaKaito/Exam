@@ -13,24 +13,20 @@ import bean.Test;
 
 public class TestDao extends Dao {
 
-    private static final String baseSql =
-        "SELECT * FROM TEST WHERE SCHOOL = ?";
+    private static final String baseSql = "SELECT * FROM TEST WHERE SCHOOL_CD = ?";
 
     // 1件取得
     public Test get(Student student, Subject subject, School school, int no) throws Exception {
-
         Connection con = getConnection();
-
         PreparedStatement st = con.prepareStatement(
-            baseSql + " AND STUDENT_NO = ? AND SUBJECT_CD = ? AND NO = ?"
+            baseSql + " AND STUDENT_NO = ? AND SUBJECT_CD = ? AND \"NO\" = ?"
         );
-
-        st.setString(1, student.getNo());
-        st.setString(2, subject.getCd());
-        st.setInt(3, no);
+        st.setString(1, school.getCd());
+        st.setString(2, student.getNo());
+        st.setString(3, subject.getCd());
+        st.setInt(4, no);
 
         ResultSet rs = st.executeQuery();
-
         Test test = null;
 
         if (rs.next()) {
@@ -46,17 +42,14 @@ public class TestDao extends Dao {
         rs.close();
         st.close();
         con.close();
-
         return test;
     }
 
     // ResultSet → List<Test> 変換
     public List<Test> postFilter(ResultSet rs, School school, Subject subject) throws Exception {
-
         List<Test> list = new ArrayList<>();
 
         while (rs.next()) {
-
             Student student = new Student();
             student.setNo(rs.getString("STUDENT_NO"));
             student.setName(rs.getString("NAME"));
@@ -81,16 +74,15 @@ public class TestDao extends Dao {
 
     // 検索（入学年度・クラス・科目・回数）
     public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school) throws Exception {
-
         Connection con = getConnection();
 
         PreparedStatement st = con.prepareStatement(
             "SELECT T.*, S.NAME, S.ENT_YEAR, S.CLASS_NUM, S.IS_ATTEND " +
             "FROM TEST T " +
-            "JOIN STUDENT S ON T.STUDENT_NO = S.NO " +
-            "WHERE T.SCHOOL = ? AND S.ENT_YEAR = ? AND S.CLASS_NUM = ? " +
-            "AND T.SUBJECT_CD = ? AND T.NO = ? " +
-            "ORDER BY S.NO"
+            "JOIN STUDENT S ON T.STUDENT_NO = S.\"NO\" " +
+            "WHERE T.SCHOOL_CD = ? AND S.ENT_YEAR = ? AND S.CLASS_NUM = ? " +
+            "AND T.SUBJECT_CD = ? AND T.\"NO\" = ? " +
+            "ORDER BY S.\"NO\""
         );
 
         st.setString(1, school.getCd());
@@ -100,7 +92,6 @@ public class TestDao extends Dao {
         st.setInt(5, num);
 
         ResultSet rs = st.executeQuery();
-
         List<Test> list = postFilter(rs, school, subject);
 
         rs.close();
@@ -110,9 +101,8 @@ public class TestDao extends Dao {
         return list;
     }
 
-    // 複数保存
+    // 複数保存（トランザクション）
     public boolean save(List<Test> list) throws Exception {
-
         Connection con = getConnection();
         con.setAutoCommit(false);
 
@@ -137,9 +127,8 @@ public class TestDao extends Dao {
 
         // 既存チェック
         PreparedStatement st1 = con.prepareStatement(
-            "SELECT COUNT(*) FROM TEST WHERE STUDENT_NO = ? AND SUBJECT_CD = ? AND NO = ? AND SCHOOL = ?"
+            "SELECT COUNT(*) FROM TEST WHERE STUDENT_NO = ? AND SUBJECT_CD = ? AND \"NO\" = ? AND SCHOOL_CD = ?"
         );
-
         st1.setString(1, test.getStudent().getNo());
         st1.setString(2, test.getSubject().getCd());
         st1.setInt(3, test.getNo());
@@ -155,9 +144,8 @@ public class TestDao extends Dao {
         // UPDATE
         if (count > 0) {
             PreparedStatement st2 = con.prepareStatement(
-                "UPDATE TEST SET POINT = ? WHERE STUDENT_NO = ? AND SUBJECT_CD = ? AND NO = ? AND SCHOOL = ?"
+                "UPDATE TEST SET POINT = ? WHERE STUDENT_NO = ? AND SUBJECT_CD = ? AND \"NO\" = ? AND SCHOOL_CD = ?"
             );
-
             st2.setInt(1, test.getPoint());
             st2.setString(2, test.getStudent().getNo());
             st2.setString(3, test.getSubject().getCd());
@@ -171,9 +159,8 @@ public class TestDao extends Dao {
 
         // INSERT
         PreparedStatement st3 = con.prepareStatement(
-            "INSERT INTO TEST (STUDENT_NO, SUBJECT_CD, NO, POINT, SCHOOL) VALUES (?, ?, ?, ?, ?)"
+            "INSERT INTO TEST (STUDENT_NO, SUBJECT_CD, \"NO\", POINT, SCHOOL_CD) VALUES (?, ?, ?, ?, ?)"
         );
-
         st3.setString(1, test.getStudent().getNo());
         st3.setString(2, test.getSubject().getCd());
         st3.setInt(3, test.getNo());

@@ -1,5 +1,7 @@
 package scoremanager.main;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
@@ -23,26 +25,46 @@ public class TestRegistAction extends Action {
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
 
-        // クラス一覧・科目一覧を常に取得（UML：filter）
+        // ============================
+        // 入学年度リスト
+        // ============================
+        LocalDate today = LocalDate.now();
+        int year = today.getYear();
+
+        List<Integer> entYearList = new ArrayList<>();
+        for (int y = year - 10; y <= year; y++) {
+            entYearList.add(y);
+        }
+        req.setAttribute("ent_year_set", entYearList);
+
+        // ============================
+        // クラス一覧・科目一覧
+        // ============================
         ClassNumDao classDao = new ClassNumDao();
         SubjectDao subjectDao = new SubjectDao();
 
-        req.setAttribute("classList", classDao.filter(school));
-        req.setAttribute("subjectList", subjectDao.filter(school));
+        req.setAttribute("class_num_set", classDao.filter(school));
+        req.setAttribute("subject_set", subjectDao.filter(school));
 
-        // 検索ボタンが押されていない場合は画面表示のみ
+        // ============================
+        // 検索ボタンが押されていない場合
+        // ============================
         if (req.getParameter("search") == null) {
             req.getRequestDispatcher("test_regist.jsp").forward(req, res);
             return;
         }
 
+        // ============================
         // 入力値取得
-        String entYear = req.getParameter("ent_year");
-        String classNum = req.getParameter("class_num");
-        String subjectCd = req.getParameter("subject_code");
-        String noStr = req.getParameter("times");
+        // ============================
+        String entYear = req.getParameter("entYear");
+        String classNum = req.getParameter("classNum");
+        String subjectCd = req.getParameter("subjectId");
+        String noStr = req.getParameter("count");
 
-        // 入力チェック（UML の alt 条件）
+        // ============================
+        // 入力チェック
+        // ============================
         if (entYear == null || entYear.isEmpty() ||
             classNum == null || classNum.isEmpty() ||
             subjectCd == null || subjectCd.isEmpty() ||
@@ -55,10 +77,14 @@ public class TestRegistAction extends Action {
 
         int no = Integer.parseInt(noStr);
 
-        // Subject オブジェクト取得（UML：SubjectDao.get）
+        // ============================
+        // 科目取得
+        // ============================
         Subject subject = subjectDao.get(subjectCd, school);
 
-        // 成績データ取得（UML：TestDao.filter）
+        // ============================
+        // 成績データ取得
+        // ============================
         TestDao testDao = new TestDao();
         List<Test> testList = testDao.filter(
                 Integer.parseInt(entYear),
@@ -68,12 +94,15 @@ public class TestRegistAction extends Action {
                 school
         );
 
+        // ============================
         // JSP に渡す
-        req.setAttribute("testList", testList);
-        req.setAttribute("ent_year", entYear);
-        req.setAttribute("class_num", classNum);
-        req.setAttribute("subject_code", subjectCd);
-        req.setAttribute("times", noStr);
+        // ============================
+        req.setAttribute("students", testList);
+        req.setAttribute("entYear", entYear);
+        req.setAttribute("classNum", classNum);
+        req.setAttribute("subjectId", subjectCd);
+        req.setAttribute("subjectName", subject.getName());
+        req.setAttribute("count", no);
 
         req.getRequestDispatcher("test_regist.jsp").forward(req, res);
     }
