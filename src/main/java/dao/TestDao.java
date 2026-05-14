@@ -1,3 +1,6 @@
+// =========================================
+// dao/TestDao.java（修正版 完成版）
+// =========================================
 package dao;
 
 import java.sql.Connection;
@@ -103,14 +106,25 @@ public class TestDao extends Dao {
 
             student.setSchool(school);
 
-            Test test = new Test();
+            Test test =
+                    new Test();
 
             test.setStudent(student);
             test.setSubject(subject);
             test.setSchool(school);
-            test.setNo(rs.getInt("NO"));
-            test.setPoint(rs.getInt("POINT"));
-            test.setClassNum(student.getClassNum());
+
+            // NULL対策
+            test.setNo(
+                    rs.getInt("NO")
+            );
+
+            test.setPoint(
+                    rs.getInt("POINT")
+            );
+
+            test.setClassNum(
+                    student.getClassNum()
+            );
 
             list.add(test);
         }
@@ -120,6 +134,7 @@ public class TestDao extends Dao {
 
     /**
      * 検索
+     * STUDENT基準でLEFT JOIN
      */
     public List<Test> filter(
             int entYear,
@@ -129,39 +144,73 @@ public class TestDao extends Dao {
             School school
     ) throws Exception {
 
-        Connection con = getConnection();
+        Connection con =
+                getConnection();
 
         PreparedStatement st =
                 con.prepareStatement(
 
-                    "SELECT T.*, " +
+                    "SELECT " +
+
+                    "S.NO AS STUDENT_NO, " +
                     "S.NAME, " +
                     "S.ENT_YEAR, " +
                     "S.CLASS_NUM, " +
-                    "S.IS_ATTEND " +
+                    "S.IS_ATTEND, " +
 
-                    "FROM TEST T " +
+                    "T.POINT, " +
+                    "T.NO " +
 
-                    "JOIN STUDENT S " +
-                    "ON T.STUDENT_NO = S.\"NO\" " +
+                    "FROM STUDENT S " +
 
-                    "WHERE T.SCHOOL_CD = ? " +
-                    "AND S.ENT_YEAR = ? " +
-                    "AND S.CLASS_NUM = ? " +
+                    "LEFT JOIN TEST T " +
+
+                    "ON S.NO = T.STUDENT_NO " +
                     "AND T.SUBJECT_CD = ? " +
                     "AND T.\"NO\" = ? " +
+                    "AND T.SCHOOL_CD = ? " +
 
-                    "ORDER BY S.\"NO\""
+                    "WHERE S.SCHOOL_CD = ? " +
+                    "AND S.ENT_YEAR = ? " +
+                    "AND S.CLASS_NUM = ? " +
+                    "AND S.IS_ATTEND = TRUE " +
+
+                    "ORDER BY S.NO"
 
                 );
 
-        st.setString(1, school.getCd());
-        st.setInt(2, entYear);
-        st.setString(3, classNum);
-        st.setString(4, subject.getCd());
-        st.setInt(5, no);
+        st.setString(
+                1,
+                subject.getCd()
+        );
 
-        ResultSet rs = st.executeQuery();
+        st.setInt(
+                2,
+                no
+        );
+
+        st.setString(
+                3,
+                school.getCd()
+        );
+
+        st.setString(
+                4,
+                school.getCd()
+        );
+
+        st.setInt(
+                5,
+                entYear
+        );
+
+        st.setString(
+                6,
+                classNum
+        );
+
+        ResultSet rs =
+                st.executeQuery();
 
         List<Test> list =
                 postFilter(
@@ -184,7 +233,8 @@ public class TestDao extends Dao {
             List<Test> list
     ) throws Exception {
 
-        Connection con = getConnection();
+        Connection con =
+                getConnection();
 
         con.setAutoCommit(false);
 
@@ -320,10 +370,11 @@ public class TestDao extends Dao {
                     "INSERT INTO TEST(" +
                     "STUDENT_NO, " +
                     "SUBJECT_CD, " +
+                    "CLASS_NUM, " +
                     "\"NO\", " +
                     "POINT, " +
                     "SCHOOL_CD" +
-                    ") VALUES (?, ?, ?, ?, ?)"
+                    ") VALUES (?, ?, ?, ?, ?, ?)"
 
                 );
 
@@ -337,18 +388,23 @@ public class TestDao extends Dao {
                 test.getSubject().getCd()
         );
 
-        st3.setInt(
+        st3.setString(
                 3,
-                test.getNo()
+                test.getClassNum()
         );
 
         st3.setInt(
                 4,
+                test.getNo()
+        );
+
+        st3.setInt(
+                5,
                 test.getPoint()
         );
 
         st3.setString(
-                5,
+                6,
                 test.getSchool().getCd()
         );
 
