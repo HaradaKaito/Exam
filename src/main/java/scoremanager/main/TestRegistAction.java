@@ -33,7 +33,6 @@ public class TestRegistAction extends Action {
         // ============================
         int currentYear = LocalDate.now().getYear();
         List<Integer> entYearList = new ArrayList<>();
-
         for (int y = currentYear - 10; y <= currentYear; y++) {
             entYearList.add(y);
         }
@@ -65,9 +64,13 @@ public class TestRegistAction extends Action {
         String noStr = req.getParameter("count");
 
         // ============================
-        // 入力チェック
+        // 入力チェック（UML準拠）
         // ============================
-        if (isEmpty(entYear) || isEmpty(classNum) || isEmpty(subjectCd) || isEmpty(noStr)) {
+        if (entYear == null || entYear.isEmpty()
+                || classNum == null || classNum.isEmpty()
+                || subjectCd == null || subjectCd.isEmpty()
+                || noStr == null || noStr.isEmpty()) {
+
             req.setAttribute("error", "入学年度・クラス・科目・回数を選択してください。");
             req.getRequestDispatcher("test_regist.jsp").forward(req, res);
             return;
@@ -103,12 +106,5 @@ public class TestRegistAction extends Action {
         req.setAttribute("count", count);
 
         req.getRequestDispatcher("test_regist.jsp").forward(req, res);
-    }
-
-    // ============================
-    // 共通：空文字チェック
-    // ============================
-    private boolean isEmpty(String s) {
-        return s == null || s.isEmpty();
     }
 }
