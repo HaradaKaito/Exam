@@ -25,11 +25,16 @@ public class TestRegistExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        // ============================
+        // セッション・学校情報
+        // ============================
         HttpSession session = request.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
 
+        // ============================
         // パラメータ取得
+        // ============================
         String[] studentNos = request.getParameterValues("studentNo");
         String[] points = request.getParameterValues("point");
         String entYear = request.getParameter("entYear");
@@ -37,65 +42,84 @@ public class TestRegistExecuteAction extends Action {
         String subjectCd = request.getParameter("subjectId");
         String countStr = request.getParameter("count");
 
-        // DAO生成
+        int count = Integer.parseInt(countStr);
+
+        // ============================
+        // DAO
+        // ============================
         StudentDao studentDao = new StudentDao();
         SubjectDao subjectDao = new SubjectDao();
         ClassNumDao classNumDao = new ClassNumDao();
         TestDao testDao = new TestDao();
 
         Subject subject = subjectDao.get(subjectCd, school);
-        int no = Integer.parseInt(countStr);
 
-        // --- 修正のコア部分 ---
-        Map<String, String> errors = new HashMap<>(); // 行ごとのエラーを保存
-        List<Test> saveList = new ArrayList<>();      // 保存用リスト
+        // ============================
+        // 入力チェック（行ごと）
+        // ============================
+        Map<String, String> errors = new HashMap<>();
+        List<Test> saveList = new ArrayList<>();
 
         for (int i = 0; i < studentNos.length; i++) {
+
             String studentNo = studentNos[i];
             String pointStr = points[i];
 
-            if (pointStr == null || pointStr.isEmpty()) {
-                continue; // 未入力は保存対象外としてスキップ
-            }
+            // 未入力はスキップ
+            if (pointStr == null || pointStr.isEmpty()) continue;
 
             try {
                 int point = Integer.parseInt(pointStr);
 
                 if (point < 0 || point > 100) {
-                    // 範囲外エラーをMapに登録
                     errors.put(studentNo, "0〜100の範囲で入力してください");
-                } else {
-                    // 正常なデータは保存リストへ
-                    Student student = studentDao.get(Integer.parseInt(entYear), classNum, studentNo, school);
-                    Test test = new Test();
-                    test.setStudent(student);
-                    test.setSubject(subject);
-                    test.setSchool(school);
-                    test.setClassNum(classNum);
-                    test.setNo(no);
-                    test.setPoint(point);
-                    saveList.add(test);
+                    continue;
                 }
+
+                // 正常データ → Test 作成
+                Student student = studentDao.get(
+                        Integer.parseInt(entYear),
+                        classNum,
+                        studentNo,
+                        school
+                );
+
+                Test test = new Test();
+                test.setStudent(student);
+                test.setSubject(subject);
+                test.setSchool(school);
+                test.setClassNum(classNum);
+                test.setNo(count);
+                test.setPoint(point);
+
+                saveList.add(test);
+
             } catch (NumberFormatException e) {
                 errors.put(studentNo, "数値を入力してください");
             }
         }
 
-        // 1つでもエラーがあれば再表示
+        // ============================
+        // エラーがある場合 → 再表示
+        // ============================
         if (!errors.isEmpty()) {
-            request.setAttribute("errors", errors); // MapをJSPへ
 
-            // 再表示に必要なデータをセット
-            List<Test> testList = testDao.filter(Integer.parseInt(entYear), classNum, subject, no, school);
-            request.setAttribute("students", testList);
+            request.setAttribute("errors", errors);
+
+            // 再表示用データ
+            request.setAttribute("students",
+                    testDao.filter(Integer.parseInt(entYear), classNum, subject, count, school));
+
             request.setAttribute("entYear", entYear);
             request.setAttribute("classNum", classNum);
             request.setAttribute("subjectId", subjectCd);
             request.setAttribute("subjectName", subject.getName());
-            request.setAttribute("count", no);
+            request.setAttribute("count", count);
+
             request.setAttribute("class_num_set", classNumDao.filter(school));
             request.setAttribute("subject_set", subjectDao.filter(school));
 
+            // 入学年度一覧
             List<Integer> entYearList = new ArrayList<>();
             int year = LocalDate.now().getYear();
             for (int y = year - 10; y <= year; y++) entYearList.add(y);
@@ -105,7 +129,9 @@ public class TestRegistExecuteAction extends Action {
             return;
         }
 
-        // 保存実行
+        // ============================
+        // 保存処理
+        // ============================
         boolean result = testDao.save(saveList);
 
         if (result) {
