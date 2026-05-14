@@ -32,10 +32,7 @@ public class StudentDao extends Dao {
 
 			statement =
 					connection.prepareStatement(
-
-						"select * from student " +
-						"where no = ?"
-
+						"select * from student where no = ?"
 					);
 
 			statement.setString(1, no);
@@ -70,9 +67,7 @@ public class StudentDao extends Dao {
 
 				student.setSchool(
 						schoolDao.get(
-								resultSet.getString(
-										"school_cd"
-								)
+								resultSet.getString("school_cd")
 						)
 				);
 
@@ -133,7 +128,6 @@ public class StudentDao extends Dao {
 				con.prepareStatement(
 
 					"SELECT * FROM STUDENT " +
-
 					"WHERE ENT_YEAR = ? " +
 					"AND CLASS_NUM = ? " +
 					"AND NO = ? " +
@@ -314,34 +308,16 @@ public class StudentDao extends Dao {
 							school
 					);
 
-		} catch (Exception e) {
-
-			throw e;
-
 		} finally {
 
 			if (statement != null) {
 
-				try {
-
-					statement.close();
-
-				} catch (SQLException sqle) {
-
-					throw sqle;
-				}
+				statement.close();
 			}
 
 			if (connection != null) {
 
-				try {
-
-					connection.close();
-
-				} catch (SQLException sqle) {
-
-					throw sqle;
-				}
+				connection.close();
 			}
 		}
 
@@ -415,34 +391,16 @@ public class StudentDao extends Dao {
 							school
 					);
 
-		} catch (Exception e) {
-
-			throw e;
-
 		} finally {
 
 			if (statement != null) {
 
-				try {
-
-					statement.close();
-
-				} catch (SQLException sqle) {
-
-					throw sqle;
-				}
+				statement.close();
 			}
 
 			if (connection != null) {
 
-				try {
-
-					connection.close();
-
-				} catch (SQLException sqle) {
-
-					throw sqle;
-				}
+				connection.close();
 			}
 		}
 
@@ -506,34 +464,16 @@ public class StudentDao extends Dao {
 							school
 					);
 
-		} catch (Exception e) {
-
-			throw e;
-
 		} finally {
 
 			if (statement != null) {
 
-				try {
-
-					statement.close();
-
-				} catch (SQLException sqle) {
-
-					throw sqle;
-				}
+				statement.close();
 			}
 
 			if (connection != null) {
 
-				try {
-
-					connection.close();
-
-				} catch (SQLException sqle) {
-
-					throw sqle;
-				}
+				connection.close();
 			}
 		}
 
@@ -541,7 +481,7 @@ public class StudentDao extends Dao {
 	}
 
 	/**
-	 * 保存
+	 * 保存（INSERT / UPDATE）
 	 */
 	public boolean save(
 			Student student
@@ -558,6 +498,7 @@ public class StudentDao extends Dao {
 
 		try {
 
+			// UML準拠
 			Student old =
 					get(
 						student.getEntYear(),
@@ -667,34 +608,16 @@ public class StudentDao extends Dao {
 			count =
 					statement.executeUpdate();
 
-		} catch (Exception e) {
-
-			throw e;
-
 		} finally {
 
 			if (statement != null) {
 
-				try {
-
-					statement.close();
-
-				} catch (SQLException sqle) {
-
-					throw sqle;
-				}
+				statement.close();
 			}
 
 			if (connection != null) {
 
-				try {
-
-					connection.close();
-
-				} catch (SQLException sqle) {
-
-					throw sqle;
-				}
+				connection.close();
 			}
 		}
 
