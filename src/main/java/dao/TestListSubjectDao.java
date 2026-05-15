@@ -1,0 +1,122 @@
+// =========================================
+// dao/TestListSubjectDao.java
+// =========================================
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import bean.School;
+import bean.Subject;
+import bean.TestListSubject;
+
+public class TestListSubjectDao extends Dao {
+
+	private static final String baseSql =
+			"SELECT " +
+			"S.NO AS STUDENT_NO, " +
+			"S.NAME AS STUDENT_NAME, " +
+			"S.CLASS_NUM, " +
+			"T.NO, " +
+			"T.POINT " +
+
+			"FROM TEST T " +
+
+			"INNER JOIN STUDENT S " +
+			"ON T.STUDENT_NO = S.NO " +
+
+			"WHERE T.SUBJECT_CD = ? " +
+			"AND T.SCHOOL_CD = ? " +
+
+			"ORDER BY S.CLASS_NUM, S.NO, T.NO";
+
+	private List<TestListSubject> postFilter(
+			ResultSet rs
+	) throws Exception {
+
+		Map<String, TestListSubject> map =
+				new HashMap<>();
+
+		while (rs.next()) {
+
+			String studentNo =
+					rs.getString("STUDENT_NO");
+
+			TestListSubject test =
+					map.get(studentNo);
+
+			if (test == null) {
+
+				test =
+						new TestListSubject();
+
+				test.setStudentNo(studentNo);
+
+				test.setStudentName(
+						rs.getString("STUDENT_NAME")
+				);
+
+				test.setClassNum(
+						rs.getString("CLASS_NUM")
+				);
+
+				test.setPoints(
+						new HashMap<>()
+				);
+
+				map.put(
+						studentNo,
+						test
+				);
+			}
+
+			test.getPoints().put(
+					rs.getInt("NO"),
+					rs.getInt("POINT")
+			);
+		}
+
+		return new ArrayList<>(map.values());
+	}
+
+	public List<TestListSubject> filter(
+			int entYear,
+			String classNum,
+			Subject subject,
+			School school
+	) throws Exception {
+
+		Connection con =
+				getConnection();
+
+		PreparedStatement st =
+				con.prepareStatement(baseSql);
+
+		st.setString(
+				1,
+				subject.getCd()
+		);
+
+		st.setString(
+				2,
+				school.getCd()
+		);
+
+		ResultSet rs =
+				st.executeQuery();
+
+		List<TestListSubject> list =
+				postFilter(rs);
+
+		rs.close();
+		st.close();
+		con.close();
+
+		return list;
+	}
+}
