@@ -1,6 +1,3 @@
-// =========================================
-// dao/TestListSubjectDao.java
-// =========================================
 package dao;
 
 import java.sql.Connection;
@@ -32,6 +29,8 @@ public class TestListSubjectDao extends Dao {
 
 			"WHERE T.SUBJECT_CD = ? " +
 			"AND T.SCHOOL_CD = ? " +
+			"AND S.ENT_YEAR = ? " +
+			"AND S.CLASS_NUM = ? " +
 
 			"ORDER BY S.CLASS_NUM, S.NO, T.NO";
 
@@ -105,6 +104,16 @@ public class TestListSubjectDao extends Dao {
 		st.setString(
 				2,
 				school.getCd()
+		);
+
+		st.setInt(
+				3,
+				entYear
+		);
+
+		st.setString(
+				4,
+				classNum
 		);
 
 		ResultSet rs =

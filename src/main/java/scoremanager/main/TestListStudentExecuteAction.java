@@ -42,13 +42,31 @@ public class TestListStudentExecuteAction extends Action {
 		Student student =
 				studentDao.get(studentNo);
 
+		// 存在チェック
+		if (student == null) {
+
+			req.setAttribute(
+					"error",
+					"学生が存在しません"
+			);
+
+			req.getRequestDispatcher(
+					"test_list.jsp"
+			).forward(req, res);
+
+			return;
+		}
+
 		TestListStudentDao dao =
 				new TestListStudentDao();
 
 		List<TestListStudent> list =
 				dao.filter(student);
 
-		req.setAttribute("list", list);
+		req.setAttribute(
+				"list",
+				list
+		);
 
 		req.getRequestDispatcher(
 				"test_list_student.jsp"

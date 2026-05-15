@@ -1,6 +1,3 @@
-// =========================================
-// bean/TestListSubject.java
-// =========================================
 package bean;
 
 import java.io.Serializable;
@@ -8,64 +5,49 @@ import java.util.Map;
 
 public class TestListSubject implements Serializable {
 
-	/**
-	 * 学生番号
-	 */
-	private String studentNo;
+    private String studentNo;
+    private String studentName;
+    private String classNum;
+    private Map<Integer, Integer> points;
 
-	/**
-	 * 学生名
-	 */
-	private String studentName;
+    public String getStudentNo() {
+        return studentNo;
+    }
 
-	/**
-	 * クラス
-	 */
-	private String classNum;
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
+    }
 
-	/**
-	 * 点数Map
-	 */
-	private Map<Integer, Integer> points;
+    public String getStudentName() {
+        return studentName;
+    }
 
-	public String getStudentNo() {
-		return studentNo;
-	}
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 
-	public void setStudentNo(String studentNo) {
-		this.studentNo = studentNo;
-	}
+    public String getClassNum() {
+        return classNum;
+    }
 
-	public String getStudentName() {
-		return studentName;
-	}
+    public void setClassNum(String classNum) {
+        this.classNum = classNum;
+    }
 
-	public void setStudentName(String studentName) {
-		this.studentName = studentName;
-	}
+    public Map<Integer, Integer> getPoints() {
+        return points;
+    }
 
-	public String getClassNum() {
-		return classNum;
-	}
+    public void setPoints(Map<Integer, Integer> points) {
+        this.points = points;
+    }
 
-	public void setClassNum(String classNum) {
-		this.classNum = classNum;
-	}
+    public Integer getPoint(int num) {
 
-	public Map<Integer, Integer> getPoints() {
-		return points;
-	}
+        if (points == null) {
+            return null;
+        }
 
-	public void setPoints(Map<Integer, Integer> points) {
-		this.points = points;
-	}
-
-	public Integer getPoint(int num) {
-
-		if (points == null) {
-			return null;
-		}
-
-		return points.get(num);
-	}
+        return points.get(num);
+    }
 }

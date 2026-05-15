@@ -1,74 +1,52 @@
-// =========================================
-// bean/TestListStudent.java
-// =========================================
 package bean;
 
 import java.io.Serializable;
 
 public class TestListStudent implements Serializable {
 
-	/**
-	 * 学生
-	 */
-	private Student student;
+    private Student student;
+    private String subjectName;
+    private String subjectCd;
+    private int num;
+    private int point;
 
-	/**
-	 * 科目名
-	 */
-	private String subjectName;
+    public Student getStudent() {
+        return student;
+    }
 
-	/**
-	 * 科目コード
-	 */
-	private String subjectCd;
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
-	/**
-	 * 回数
-	 */
-	private int num;
+    public String getSubjectName() {
+        return subjectName;
+    }
 
-	/**
-	 * 点数
-	 */
-	private int point;
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
 
-	public Student getStudent() {
-		return student;
-	}
+    public String getSubjectCd() {
+        return subjectCd;
+    }
 
-	public void setStudent(Student student) {
-		this.student = student;
-	}
+    public void setSubjectCd(String subjectCd) {
+        this.subjectCd = subjectCd;
+    }
 
-	public String getSubjectName() {
-		return subjectName;
-	}
+    public int getNum() {
+        return num;
+    }
 
-	public void setSubjectName(String subjectName) {
-		this.subjectName = subjectName;
-	}
+    public void setNum(int num) {
+        this.num = num;
+    }
 
-	public String getSubjectCd() {
-		return subjectCd;
-	}
+    public int getPoint() {
+        return point;
+    }
 
-	public void setSubjectCd(String subjectCd) {
-		this.subjectCd = subjectCd;
-	}
-
-	public int getNum() {
-		return num;
-	}
-
-	public void setNum(int num) {
-		this.num = num;
-	}
-
-	public int getPoint() {
-		return point;
-	}
-
-	public void setPoint(int point) {
-		this.point = point;
-	}
+    public void setPoint(int point) {
+        this.point = point;
+    }
 }
