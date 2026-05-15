@@ -1,6 +1,3 @@
-// =========================================
-// scoremanager/main/TestListSubjectExecuteAction.java
-// =========================================
 package scoremanager.main;
 
 import java.util.List;
@@ -9,6 +6,7 @@ import bean.School;
 import bean.Subject;
 import bean.Teacher;
 import bean.TestListSubject;
+import dao.ClassNumDao;
 import dao.SubjectDao;
 import dao.TestListSubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,22 +31,66 @@ public class TestListSubjectExecuteAction extends Action {
 		School school =
 				teacher.getSchool();
 
-		String cd =
-				req.getParameter("subjectId");
-
-		SubjectDao subjectDao =
-				new SubjectDao();
-
-		Subject subject =
-				subjectDao.get(cd, school);
+		String entYearStr =
+				req.getParameter("entYear");
 
 		String classNum =
 				req.getParameter("classNum");
 
+		String subjectCd =
+				req.getParameter("subjectId");
+
+		// 再表示用データ
+		int currentYear =
+				java.time.Year.now().getValue();
+
+		req.setAttribute(
+				"ent_year_set",
+				new int[] {
+						currentYear - 2,
+						currentYear - 1,
+						currentYear
+				}
+		);
+
+		ClassNumDao classNumDao =
+				new ClassNumDao();
+
+		req.setAttribute(
+				"class_num_set",
+				classNumDao.filter(school)
+		);
+
+		SubjectDao subjectDao =
+				new SubjectDao();
+
+		req.setAttribute(
+				"subject_set",
+				subjectDao.filter(school)
+		);
+
+		// 未入力チェック
+		if (entYearStr == null || entYearStr.isEmpty()
+				|| classNum == null || classNum.isEmpty()
+				|| subjectCd == null || subjectCd.isEmpty()) {
+
+			req.setAttribute(
+					"error",
+					"入学年度・クラス・科目を選択してください"
+			);
+
+			req.getRequestDispatcher(
+					"test_list.jsp"
+			).forward(req, res);
+
+			return;
+		}
+
 		int entYear =
-				Integer.parseInt(
-						req.getParameter("entYear")
-				);
+				Integer.parseInt(entYearStr);
+
+		Subject subject =
+				subjectDao.get(subjectCd, school);
 
 		TestListSubjectDao dao =
 				new TestListSubjectDao();
@@ -61,15 +103,8 @@ public class TestListSubjectExecuteAction extends Action {
 						school
 				);
 
-		req.setAttribute(
-				"list",
-				list
-		);
-
-		req.setAttribute(
-				"subject",
-				subject
-		);
+		req.setAttribute("list", list);
+		req.setAttribute("subject", subject);
 
 		req.getRequestDispatcher(
 				"test_list_subject.jsp"

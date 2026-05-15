@@ -1,6 +1,3 @@
-// =========================================
-// scoremanager/main/TestListStudentExecuteAction.java
-// =========================================
 package scoremanager.main;
 
 import java.util.List;
@@ -24,6 +21,21 @@ public class TestListStudentExecuteAction extends Action {
 		String studentNo =
 				req.getParameter("studentNo");
 
+		// 未入力チェック
+		if (studentNo == null || studentNo.isEmpty()) {
+
+			req.setAttribute(
+					"error",
+					"学生番号を入力してください"
+			);
+
+			req.getRequestDispatcher(
+					"test_list.jsp"
+			).forward(req, res);
+
+			return;
+		}
+
 		StudentDao studentDao =
 				new StudentDao();
 
@@ -36,10 +48,7 @@ public class TestListStudentExecuteAction extends Action {
 		List<TestListStudent> list =
 				dao.filter(student);
 
-		req.setAttribute(
-				"list",
-				list
-		);
+		req.setAttribute("list", list);
 
 		req.getRequestDispatcher(
 				"test_list_student.jsp"
