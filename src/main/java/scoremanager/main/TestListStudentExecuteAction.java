@@ -47,7 +47,7 @@ public class TestListStudentExecuteAction extends Action {
 
 			req.setAttribute(
 					"error",
-					"学生が存在しません"
+					"学生情報が存在しませんでした"
 			);
 
 			req.getRequestDispatcher(
@@ -62,6 +62,11 @@ public class TestListStudentExecuteAction extends Action {
 
 		List<TestListStudent> list =
 				dao.filter(student);
+
+		req.setAttribute(
+				"student",
+				student
+		);
 
 		req.setAttribute(
 				"list",

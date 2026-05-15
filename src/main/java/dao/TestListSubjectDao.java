@@ -16,6 +16,7 @@ public class TestListSubjectDao extends Dao {
 
 	private static final String baseSql =
 			"SELECT " +
+			"S.ENT_YEAR, " +
 			"S.NO AS STUDENT_NO, " +
 			"S.NAME AS STUDENT_NAME, " +
 			"S.CLASS_NUM, " +
@@ -32,7 +33,7 @@ public class TestListSubjectDao extends Dao {
 			"AND S.ENT_YEAR = ? " +
 			"AND S.CLASS_NUM = ? " +
 
-			"ORDER BY S.CLASS_NUM, S.NO, T.NO";
+			"ORDER BY S.NO, T.NO";
 
 	private List<TestListSubject> postFilter(
 			ResultSet rs
@@ -54,7 +55,13 @@ public class TestListSubjectDao extends Dao {
 				test =
 						new TestListSubject();
 
-				test.setStudentNo(studentNo);
+				test.setEntYear(
+						rs.getInt("ENT_YEAR")
+				);
+
+				test.setStudentNo(
+						studentNo
+				);
 
 				test.setStudentName(
 						rs.getString("STUDENT_NAME")

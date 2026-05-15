@@ -5,49 +5,58 @@ import java.util.Map;
 
 public class TestListSubject implements Serializable {
 
-    private String studentNo;
-    private String studentName;
-    private String classNum;
-    private Map<Integer, Integer> points;
+	private int entYear;
+	private String studentNo;
+	private String studentName;
+	private String classNum;
+	private Map<Integer, Integer> points;
 
-    public String getStudentNo() {
-        return studentNo;
-    }
+	public int getEntYear() {
+		return entYear;
+	}
 
-    public void setStudentNo(String studentNo) {
-        this.studentNo = studentNo;
-    }
+	public void setEntYear(int entYear) {
+		this.entYear = entYear;
+	}
 
-    public String getStudentName() {
-        return studentName;
-    }
+	public String getStudentNo() {
+		return studentNo;
+	}
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
+	public void setStudentNo(String studentNo) {
+		this.studentNo = studentNo;
+	}
 
-    public String getClassNum() {
-        return classNum;
-    }
+	public String getStudentName() {
+		return studentName;
+	}
 
-    public void setClassNum(String classNum) {
-        this.classNum = classNum;
-    }
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
+	}
 
-    public Map<Integer, Integer> getPoints() {
-        return points;
-    }
+	public String getClassNum() {
+		return classNum;
+	}
 
-    public void setPoints(Map<Integer, Integer> points) {
-        this.points = points;
-    }
+	public void setClassNum(String classNum) {
+		this.classNum = classNum;
+	}
 
-    public Integer getPoint(int num) {
+	public Map<Integer, Integer> getPoints() {
+		return points;
+	}
 
-        if (points == null) {
-            return null;
-        }
+	public void setPoints(Map<Integer, Integer> points) {
+		this.points = points;
+	}
 
-        return points.get(num);
-    }
+	public Integer getPoint(int num) {
+
+		if (points == null) {
+			return null;
+		}
+
+		return points.get(num);
+	}
 }
