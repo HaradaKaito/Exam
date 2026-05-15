@@ -76,7 +76,7 @@
                     <div class="col-2 d-flex align-items-end">
                         <button class="btn btn-secondary" id="search" name="search">検索</button>
                     </div>
-
+                    
                 </div>
             </form>
  
