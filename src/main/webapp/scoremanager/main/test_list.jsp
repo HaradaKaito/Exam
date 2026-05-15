@@ -145,7 +145,7 @@
 							<input
 								type="text"
 								name="studentNo"
-								class="form-control"
+								class="form-control".
 								placeholder="学生番号を入力してください">
 
 						</div>
