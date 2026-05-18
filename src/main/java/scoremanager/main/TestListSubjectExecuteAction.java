@@ -31,7 +31,7 @@ public class TestListSubjectExecuteAction extends Action {
 		School school =
 				teacher.getSchool();
 
-		// 画面上部再表示用
+		// 上部検索フォーム再表示用
 		int currentYear =
 				java.time.Year.now().getValue();
 
@@ -116,7 +116,7 @@ public class TestListSubjectExecuteAction extends Action {
 				list
 		);
 
-		// 同じ画面で表示する用
+		// ← これ超重要
 		req.setAttribute(
 				"mode",
 				"subject"
