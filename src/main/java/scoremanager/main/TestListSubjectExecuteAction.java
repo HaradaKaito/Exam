@@ -6,6 +6,7 @@ import bean.School;
 import bean.Subject;
 import bean.Teacher;
 import bean.TestListSubject;
+import dao.ClassNumDao;
 import dao.SubjectDao;
 import dao.TestListSubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,35 @@ public class TestListSubjectExecuteAction extends Action {
 
 		School school =
 				teacher.getSchool();
+
+		// 画面上部再表示用
+		int currentYear =
+				java.time.Year.now().getValue();
+
+		req.setAttribute(
+				"ent_year_set",
+				new int[] {
+						currentYear - 2,
+						currentYear - 1,
+						currentYear
+				}
+		);
+
+		ClassNumDao classNumDao =
+				new ClassNumDao();
+
+		req.setAttribute(
+				"class_num_set",
+				classNumDao.filter(school)
+		);
+
+		SubjectDao subjectDao =
+				new SubjectDao();
+
+		req.setAttribute(
+				"subject_set",
+				subjectDao.filter(school)
+		);
 
 		String entYearStr =
 				req.getParameter("entYear");
@@ -59,11 +89,11 @@ public class TestListSubjectExecuteAction extends Action {
 		int entYear =
 				Integer.parseInt(entYearStr);
 
-		SubjectDao subjectDao =
-				new SubjectDao();
-
 		Subject subject =
-				subjectDao.get(subjectCd, school);
+				subjectDao.get(
+						subjectCd,
+						school
+				);
 
 		TestListSubjectDao dao =
 				new TestListSubjectDao();
@@ -77,17 +107,23 @@ public class TestListSubjectExecuteAction extends Action {
 				);
 
 		req.setAttribute(
-				"list",
-				list
-		);
-
-		req.setAttribute(
 				"subject",
 				subject
 		);
 
+		req.setAttribute(
+				"list",
+				list
+		);
+
+		// 同じ画面で表示する用
+		req.setAttribute(
+				"mode",
+				"subject"
+		);
+
 		req.getRequestDispatcher(
-				"test_list_subject.jsp"
+				"test_list.jsp"
 		).forward(req, res);
 	}
 }
