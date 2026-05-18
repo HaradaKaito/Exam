@@ -59,4 +59,24 @@ public class TestListSubject implements Serializable {
 
 		return points.get(num);
 	}
+
+	// 1回目得点取得
+	public Integer getPoint1() {
+
+		if (points == null) {
+			return null;
+		}
+
+		return points.get(1);
+	}
+
+	// 2回目得点取得
+	public Integer getPoint2() {
+
+		if (points == null) {
+			return null;
+		}
+
+		return points.get(2);
+	}
 }
