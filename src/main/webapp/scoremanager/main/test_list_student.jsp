@@ -1,74 +1,119 @@
-<%-- 学生別成績参照JSP --%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%-- 科目別成績参照JSP --%>
+<%@ page language="java"
+	contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
-<c:import url="/common/base.jsp">
+<%@ taglib prefix="c"
+	uri="jakarta.tags.core"%>
 
-	<c:param name="title">
-		得点管理システム
-	</c:param>
+<div class="mt-5">
 
-	<c:param name="content">
+	<div class="mb-3">
 
-		<section class="me-4">
+		科目：
+		${subject.name}
 
-			<h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
-				学生別成績参照
-			</h2>
+	</div>
 
-			<c:choose>
+	<c:choose>
 
-				<c:when test="${scores.size() > 0}">
+		<c:when test="${list.size() > 0}">
 
-					<div class="mb-2">
-						学生番号：${studentNo}
-					</div>
+			<table class="table table-hover">
 
-					<div class="mb-2">
-						学生名：${studentName}
-					</div>
+				<tr>
 
-					<div>
-						検索結果：${scores.size()}件
-					</div>
+					<th>入学年度</th>
+					<th>クラス</th>
+					<th>学生番号</th>
+					<th>氏名</th>
+					<th>1回</th>
+					<th>2回</th>
 
-					<table class="table table-hover">
+				</tr>
 
-						<tr>
-							<th>科目名</th>
-							<th>科目コード</th>
-							<th>回数</th>
-							<th>得点</th>
-						</tr>
+				<c:forEach
+					var="score"
+					items="${list}">
 
-						<c:forEach var="score" items="${scores}">
+					<tr>
 
-							<tr>
-								<td>${score.subjectName}</td>
-								<td>${score.subjectCd}</td>
-								<td>${score.testNo}</td>
-								<td>${score.point}</td>
-							</tr>
+						<td>
+							${score.entYear}
+						</td>
 
-						</c:forEach>
+						<td>
+							${score.classNum}
+						</td>
 
-					</table>
+						<td>
+							${score.studentNo}
+						</td>
 
-				</c:when>
+						<td>
+							${score.studentName}
+						</td>
 
-				<c:otherwise>
+						<!-- 1回 -->
+						<td>
 
-					<div>
-						成績情報が存在しませんでした。
-					</div>
+							<c:choose>
 
-				</c:otherwise>
+								<c:when test="${score.point1 != null}">
 
-			</c:choose>
+									${score.point1}
 
-		</section>
+								</c:when>
 
-	</c:param>
+								<c:otherwise>
 
-</c:import>
+									-
+
+								</c:otherwise>
+
+							</c:choose>
+
+						</td>
+
+						<!-- 2回 -->
+						<td>
+
+							<c:choose>
+
+								<c:when test="${score.point2 != null}">
+
+									${score.point2}
+
+								</c:when>
+
+								<c:otherwise>
+
+									-
+
+								</c:otherwise>
+
+							</c:choose>
+
+						</td>
+
+					</tr>
+
+				</c:forEach>
+
+			</table>
+
+		</c:when>
+
+		<c:otherwise>
+
+			<div>
+
+				学生情報が存在しませんでした
+
+			</div>
+
+		</c:otherwise>
+
+	</c:choose>
+
+</div>
