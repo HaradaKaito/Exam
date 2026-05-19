@@ -35,6 +35,47 @@ public class TestListSubjectDao extends Dao {
 
 			"ORDER BY S.NO, T.NO";
 
+	// 入学年度一覧取得
+	public List<Integer> filterEntYear(
+			School school
+	) throws Exception {
+
+		List<Integer> list =
+				new ArrayList<>();
+
+		Connection con =
+				getConnection();
+
+		PreparedStatement st =
+				con.prepareStatement(
+						"SELECT DISTINCT ENT_YEAR " +
+						"FROM STUDENT " +
+						"WHERE SCHOOL_CD = ? " +
+						"ORDER BY ENT_YEAR DESC"
+				);
+
+		st.setString(
+				1,
+				school.getCd()
+		);
+
+		ResultSet rs =
+				st.executeQuery();
+
+		while (rs.next()) {
+
+			list.add(
+					rs.getInt("ENT_YEAR")
+			);
+		}
+
+		rs.close();
+		st.close();
+		con.close();
+
+		return list;
+	}
+
 	private List<TestListSubject> postFilter(
 			ResultSet rs
 	) throws Exception {

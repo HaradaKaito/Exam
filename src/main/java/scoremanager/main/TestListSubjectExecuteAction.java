@@ -31,19 +31,16 @@ public class TestListSubjectExecuteAction extends Action {
 		School school =
 				teacher.getSchool();
 
-		// 上部検索フォーム再表示用
-		int currentYear =
-				java.time.Year.now().getValue();
+		TestListSubjectDao dao =
+				new TestListSubjectDao();
 
+		// DBに存在する入学年度のみ取得
 		req.setAttribute(
 				"ent_year_set",
-				new int[] {
-						currentYear - 2,
-						currentYear - 1,
-						currentYear
-				}
+				dao.filterEntYear(school)
 		);
 
+		// クラス一覧
 		ClassNumDao classNumDao =
 				new ClassNumDao();
 
@@ -52,6 +49,7 @@ public class TestListSubjectExecuteAction extends Action {
 				classNumDao.filter(school)
 		);
 
+		// 科目一覧
 		SubjectDao subjectDao =
 				new SubjectDao();
 
@@ -95,9 +93,6 @@ public class TestListSubjectExecuteAction extends Action {
 						school
 				);
 
-		TestListSubjectDao dao =
-				new TestListSubjectDao();
-
 		List<TestListSubject> list =
 				dao.filter(
 						entYear,
@@ -116,7 +111,6 @@ public class TestListSubjectExecuteAction extends Action {
 				list
 		);
 
-		// ← これ超重要
 		req.setAttribute(
 				"mode",
 				"subject"
