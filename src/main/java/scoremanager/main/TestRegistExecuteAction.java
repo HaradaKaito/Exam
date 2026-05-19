@@ -119,12 +119,15 @@ public class TestRegistExecuteAction extends Action {
             request.setAttribute("class_num_set", classNumDao.filter(school));
             request.setAttribute("subject_set", subjectDao.filter(school));
 
-            // 入学年度一覧
+         // 入学年度一覧（現在年の前後10年）
+            int currentYear = LocalDate.now().getYear();
             List<Integer> entYearList = new ArrayList<>();
-            int year = LocalDate.now().getYear();
-            for (int y = year - 10; y <= year; y++) entYearList.add(y);
-            request.setAttribute("ent_year_set", entYearList);
 
+            for (int y = currentYear - 10; y <= currentYear + 10; y++) {
+                entYearList.add(y);
+            }
+
+            request.setAttribute("ent_year_set", entYearList);
             request.getRequestDispatcher("test_regist.jsp").forward(request, response);
             return;
         }

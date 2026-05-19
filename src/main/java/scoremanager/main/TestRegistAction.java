@@ -33,11 +33,13 @@ public class TestRegistAction extends Action {
         // ============================
         int currentYear = LocalDate.now().getYear();
         List<Integer> entYearList = new ArrayList<>();
-        for (int y = currentYear - 10; y <= currentYear; y++) {
+
+        for (int y = currentYear - 10; y <= currentYear + 10; y++) {
             entYearList.add(y);
         }
-        req.setAttribute("ent_year_set", entYearList);
 
+        req.setAttribute("ent_year_set", entYearList);
+ 
         // ============================
         // クラス一覧・科目一覧
         // ============================
@@ -94,7 +96,12 @@ public class TestRegistAction extends Action {
                 count,
                 school
         );
-
+ 
+     // 検索結果が0件の場合
+        if (testList.isEmpty()) {
+            req.setAttribute("error", "検索結果がありません。");
+        }
+        
         // ============================
         // JSPへ値を渡す
         // ============================
