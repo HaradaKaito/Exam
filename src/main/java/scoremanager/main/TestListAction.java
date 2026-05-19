@@ -29,17 +29,22 @@ public class TestListAction extends Action {
 		School school =
 				teacher.getSchool();
 
-		// 入学年度セット
+		// 入学年度セット（前後10年）
 		int currentYear =
 				java.time.Year.now().getValue();
 
+		Integer[] entYearSet =
+				new Integer[21];
+
+		for (int i = 0; i <= 20; i++) {
+
+			entYearSet[i] =
+					currentYear - 10 + i;
+		}
+
 		req.setAttribute(
 				"ent_year_set",
-				new int[] {
-						currentYear - 2,
-						currentYear - 1,
-						currentYear
-				}
+				entYearSet
 		);
 
 		// クラス一覧
