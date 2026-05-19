@@ -22,7 +22,6 @@ import tool.Action;
 
 public class TestRegistExecuteAction extends Action {
 
-	//w
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
