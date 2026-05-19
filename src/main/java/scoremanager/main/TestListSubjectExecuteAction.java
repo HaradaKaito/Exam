@@ -31,13 +31,22 @@ public class TestListSubjectExecuteAction extends Action {
 		School school =
 				teacher.getSchool();
 
-		TestListSubjectDao dao =
-				new TestListSubjectDao();
+		// 入学年度を前後10年表示
+		int currentYear =
+				java.time.Year.now().getValue();
 
-		// DBに存在する入学年度のみ取得
+		Integer[] entYearSet =
+				new Integer[21];
+
+		for (int i = 0; i <= 20; i++) {
+
+			entYearSet[i] =
+					currentYear - 10 + i;
+		}
+
 		req.setAttribute(
 				"ent_year_set",
-				dao.filterEntYear(school)
+				entYearSet
 		);
 
 		// クラス一覧
@@ -92,6 +101,9 @@ public class TestListSubjectExecuteAction extends Action {
 						subjectCd,
 						school
 				);
+
+		TestListSubjectDao dao =
+				new TestListSubjectDao();
 
 		List<TestListSubject> list =
 				dao.filter(
